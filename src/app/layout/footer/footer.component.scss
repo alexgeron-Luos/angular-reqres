@@ -1,0 +1,17 @@
+footer {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 1rem;
+  text-align: center;
+  background-color: #212529;
+  color: white;
+  a {
+    color: white;
+    text-decoration: none;
+  }
+  a:hover {
+    color: #198754;
+  }
+}
