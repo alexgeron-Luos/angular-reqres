@@ -10,7 +10,9 @@ import { User } from '../entity/user';
 export class UserDetailsComponent implements OnInit {
   constructor(private location: Location) {}
 
-  selectedUser: User = JSON.parse(localStorage.getItem('selectedUser') || '{}');
+  selectedUser: User = JSON.parse(
+    sessionStorage.getItem('selectedUser') || '{}'
+  );
 
   ngOnInit(): void {}
 

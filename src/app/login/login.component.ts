@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Credential } from '../entity/credential';
-import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { ApiHttpService } from '../services/ApiHttpService';
+import { environment } from 'src/environments/environment';
 import validator from 'validator';
 
 @Component({
@@ -10,26 +11,27 @@ import validator from 'validator';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private router: Router, private apiHttpService: ApiHttpService) {}
 
   showError: boolean = false;
   errorMessage: string = '';
 
   ngOnInit(): void {}
-  onClickSubmit(data: Credential) {
+  onClickSubmit = (data: Credential): void => {
     // TODO : add validator for password
     if (validator.isEmail(data.email)) {
-      this.http
-        .post<any>('https://reqres.in/api/login', {
-          email: data.email,
-          password: data.password,
-        })
+      const credential: Credential = {
+        email: data.email,
+        password: data.password,
+      };
+      this.apiHttpService
+        .post(environment.apiBaseUrl + '/login', credential)
         .subscribe(
-          (data) => {
-            localStorage.setItem('authToken', data.token);
+          (data: any) => {
+            sessionStorage.setItem('authToken', data.token);
             this.router.navigate(['/']);
           },
-          (error) => {
+          (error: Error) => {
             this.showError = true;
             this.errorMessage = 'Invalid user please use a reqres user !';
           }
@@ -38,5 +40,5 @@ export class LoginComponent implements OnInit {
       this.showError = true;
       this.errorMessage = 'Credential error please retry !';
     }
-  }
+  };
 }

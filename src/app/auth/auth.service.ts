@@ -7,7 +7,7 @@ export class AuthService {
   constructor() {}
 
   isLoggedIn = () => {
-    const token = localStorage.getItem('authToken'); // get token from local storage
+    const token = sessionStorage.getItem('authToken'); // get token from session storage
 
     return token !== null ? true : false;
   };
